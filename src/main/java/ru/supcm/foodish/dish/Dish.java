@@ -1,15 +1,14 @@
 package ru.supcm.foodish.dish;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "dishes")
-@Builder
 @Data
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

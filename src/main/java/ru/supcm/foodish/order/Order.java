@@ -1,9 +1,7 @@
 package ru.supcm.foodish.order;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import ru.supcm.foodish.client.Client;
 import ru.supcm.foodish.dish.Dish;
 
@@ -11,9 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Builder
 @Data
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id

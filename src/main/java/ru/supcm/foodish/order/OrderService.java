@@ -28,9 +28,10 @@ public class OrderService {
         return order.getDishes().stream().mapToDouble(Dish::getPrice).sum();
     }
 
-    public void updateOrderStatus(Order order, Order.Status status) {
+    public Order updateOrderStatus(Order order, Order.Status status) {
         order.setStatus(status);
         repository.save(order);
+        return order;
     }
 
     public Order getOrderById(long id) throws NoSuchOrderException {
