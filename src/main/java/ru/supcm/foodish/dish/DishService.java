@@ -16,8 +16,9 @@ public class DishService {
         return repository.findById(id).orElseThrow(NoSuchDishException::new);
     }
 
-    public Dish addDish(Dish dish) {
-        //TODO: add check on already existing name
+    public Dish addDish(Dish dish) throws DishAlreadyExistsException {
+        if(repository.findByName(dish.getName()).isPresent())
+            throw new DishAlreadyExistsException();
         return repository.save(dish);
     }
 

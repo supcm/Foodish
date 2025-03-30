@@ -12,8 +12,9 @@ public class ClientService {
         return repository.findByPhoneNumber(phoneNumber).orElseThrow(NoSuchClientException::new);
     }
 
-    public Client addClient(Client client) {
-        //TODO: add check on already existing client
+    public Client addClient(Client client) throws ClientAlreadyExistsException {
+        if(repository.findByPhoneNumber(client.getPhoneNumber()).isPresent())
+            throw new ClientAlreadyExistsException();
         return repository.save(client);
     }
 }

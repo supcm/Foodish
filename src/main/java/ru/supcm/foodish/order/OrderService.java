@@ -15,14 +15,17 @@ public class OrderService {
     private final ClientService clientService;
     private final OrderRepo repository;
 
-    public Order makeOrder(List<Dish> dishes, Client client) {
+    public double makeOrder(List<Dish> dishes, Client client, String commentary, Order.PaymentType type) {
         Order order = Order.builder()
                 .dishes(dishes)
                 .client(client)
+                .commentary(commentary)
+                .paymentType(type)
                 .status(Order.Status.CREATED)
                 .build();
         repository.save(order);
-        return order;
+
+        return order.getDishes().stream().mapToDouble(Dish::getPrice).sum();
     }
 
     public void updateOrderStatus(Order order, Order.Status status) {

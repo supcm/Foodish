@@ -26,11 +26,22 @@ public class Order {
     @OneToMany
     private List<Dish> dishes;
 
+    @Column
+    private String commentary;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
     public enum Status {
         IN_PROGRESS, DONE, CANCELLED, CREATED
+    }
+
+    public enum PaymentType {
+        CASH, CARD
     }
 }
