@@ -3,7 +3,6 @@ package ru.supcm.foodish.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.supcm.foodish.client.ClientService;
-import ru.supcm.foodish.dish.Dish;
 import ru.supcm.foodish.dish.DishService;
 
 import java.util.List;
@@ -18,9 +17,15 @@ public class OrderController {
 
     @PostMapping("/add")
     public double addOrder(@RequestBody AddOrderRequest req) {
-        List<Dish> dishes = req.dishes().stream().map(dishService::getDish).toList();
         //TODO: if client is not present, add it first and then add order
-        return orderService.makeOrder(dishes, clientService.getClientByPhone(req.clientPhone()), req.commentary(), req.payment());
+        return orderService
+                .makeOrder(
+                        req.dishes().stream().map(dishService::getDish).toList(),
+                        clientService.getClientByPhone(req.clientPhone()),
+                        req.commentary(),
+                        req.payment()
+                )
+                .getPrice();
     }
 
     @PatchMapping("/update/status/{orderId}")
@@ -38,5 +43,20 @@ public class OrderController {
     @PatchMapping("/cancel/{orderId}")
     public Order cancelOrder(@PathVariable long orderId) {
         return orderService.updateOrderStatus(orderService.getOrderById(orderId), Order.Status.CANCELLED);
+    }
+
+    @GetMapping("/")
+    public Order getOrder(@RequestParam long orderId) {
+        return orderService.getOrderById(orderId);
+    }
+
+    @GetMapping("/{clientPhone}/orders/")
+    public List<Order> getOrders(@PathVariable String clientPhone) {
+        return orderService.getClientOrders(clientService.getClientByPhone(clientPhone));
+    }
+
+    @GetMapping("/status")
+    public List<Order> getOrders(@RequestParam Order.Status status) {
+        return orderService.getOrdersInStatus(status);
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import ru.supcm.foodish.client.Client;
 import ru.supcm.foodish.dish.Dish;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,6 +28,13 @@ public class Order {
 
     @Column
     private String commentary;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP) //for confidence
+    private Date orderDate;
+
+    @Column(nullable = false)
+    private double price;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
