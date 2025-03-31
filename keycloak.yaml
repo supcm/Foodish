@@ -1,6 +1,8 @@
 services:
   pg_keycloak:
     image: postgres:15
+    profiles:
+      - keycloak
     volumes:
       - pg_keycloak:/var/lib/postgresql/data
     environment:
@@ -12,6 +14,9 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.4
+    profiles:
+      - keycloak
+      - server
     volumes:
       - ./realm-export.json:/opt/keycloak/data/import/realm.json
     environment:

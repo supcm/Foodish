@@ -2,6 +2,8 @@ include:
   - keycloak.yaml
 services:
   postgres:
+    profiles:
+      - server
     image: 'postgres:latest'
     volumes:
       - postgres_data:/var/lib/postgresql/data
