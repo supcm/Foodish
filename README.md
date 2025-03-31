@@ -10,7 +10,6 @@ This is project created only for educational purposes.
 # TODOs or Plans
 
 - Implement auth using keycloak or custom jwt
-- Create API endpoints
 
 # Used Specification
 

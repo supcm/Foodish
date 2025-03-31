@@ -19,8 +19,8 @@ public class DishController {
         return dishService.addDish(dish);
     }
 
-    @PatchMapping("/update/price/{dishName}")
-    public Dish updatePrice(@PathVariable String dishName, @RequestParam double newPrice) {
-        return dishService.updateDishPrice(dishService.getDish(dishName), newPrice);
+    @PatchMapping("/{dishId}/price")
+    public Dish updatePrice(@PathVariable String dishId, @RequestParam double newPrice) {
+        return dishService.updateDishPrice(dishService.getDish(dishId), newPrice);
     }
 }

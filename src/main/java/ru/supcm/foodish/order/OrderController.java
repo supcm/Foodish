@@ -17,7 +17,6 @@ public class OrderController {
 
     @PostMapping("/add")
     public double addOrder(@RequestBody AddOrderRequest req) {
-        //TODO: if client is not present, add it first and then add order
         return orderService
                 .makeOrder(
                         req.dishes().stream().map(dishService::getDish).toList(),
@@ -28,7 +27,7 @@ public class OrderController {
                 .getPrice();
     }
 
-    @PatchMapping("/update/status/{orderId}")
+    @PatchMapping("/{orderId}/status/")
     public Order updateOrderStatus(@PathVariable long orderId) {
         Order order = orderService.getOrderById(orderId);
         Order.Status status = order.getStatus();
@@ -40,7 +39,7 @@ public class OrderController {
         return orderService.updateOrderStatus(order, status);
     }
 
-    @PatchMapping("/cancel/{orderId}")
+    @PatchMapping("/{orderId}/cancel/")
     public Order cancelOrder(@PathVariable long orderId) {
         return orderService.updateOrderStatus(orderService.getOrderById(orderId), Order.Status.CANCELLED);
     }

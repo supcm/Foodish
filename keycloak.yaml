@@ -1,0 +1,41 @@
+services:
+  pg_keycloak:
+    image: postgres:15
+    volumes:
+      - pg_keycloak:/var/lib/postgresql/data
+    environment:
+      - 'POSTGRES_DB=keycloak'
+      - 'POSTGRES_USER=admin'
+      - 'POSTGRES_PASSWORD=admin'
+    ports:
+      - 5432:5432
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.4
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm.json
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: pg_keycloak
+      KC_DB_URL_PORT: 5432
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+    depends_on:
+      - pg_keycloak
+    command: start-dev
+
+volumes:
+  pg_keycloak:
